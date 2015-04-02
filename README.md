@@ -1,52 +1,58 @@
 # Final Project Assignment 2: Explore One More! (FP2) 
 DUE March 30, 2015 Monday (2015-03-30)
 
-This is just like FP1, but where you do a different library. (Full description of FP1 is [on Piazza.][piazza])
+Name: Jerra Khorn
 
-During this assignment, you should start looking for teammates. See the project schedule [on Piazza.][schedule]
+My Library: [arrow.rkt](http://docs.racket-lang.org/teachpack/arrow.html?q=)
 
-Write your report right in this file. Instructions are below. You can delete them if you like, or just leave them at the bottom.
-You are allowed to change/delete anything in this file to make it into your report. It will be public.
+I wanted to use look into this library because I changed that idea of what my project.
+I was interesting in maybe a pacman/maze like game and so I was interested in
+moving images. the arrow.rkt library looked promising and through it I would
+be able to move images with a controller GUI.
 
-This file is formatted with the [**markdown** language][markdown], so take a glance at how that works.
-
-This file IS your report for the assignment, including code and your story.
-
-Code is super easy in markdown, which you can easily do inline `(require net/url)` or do in whole blocks:
 ```
 #lang racket
+(require htdp/draw)
+(require htdp/arrow)
+(require lang/posn)
 
-(require net/url)
+;Shape is a structure
+;    (make-posn number number)
+
+;define radius
+(define RAD 10)
+
+;make canvas
+(start 300 300)
+
+(define (draw-it shape)
+  (draw-solid-disk shape RAD))
+
+(define (translate-x shape change)
+  (make-posn (+ (posn-x shape) change) (posn-y shape)))
+
+(define (translate-y shape change)
+  (make-posn (posn-x shape) (+ (posn-y shape) change)))
+
+(define (move-x delta shape)
+  (cond
+    [(and (clear-solid-disk shape RAD)
+          (draw-solid-disk (translate-x shape delta) RAD))
+     (translate-x shape delta)]
+    [else false]))
+ 
+(define (move-y delta shape)
+  (cond
+    [(and (clear-solid-disk shape RAD)
+          (draw-solid-disk (translate-y shape delta) RAD))
+     (translate-y shape delta)]
+    [else false]))
+
+(control (make-posn 10 10) 10 move-x move-y draw-it)
 ```
 
-### My Library: (library name here)
-Write what you did!
-Remember that this report must include:
- 
-* a narrative of what you did
-* the code that you wrote
-* output from your code demonstrating what it produced
-* any diagrams or figures explaining your work 
- 
-The narrative itself should be no longer than 350 words. Yes, you can add more files and link or refer to them. This is github, handling files is awesome and easy!
+This is my code. It makes a canvas and a controller GUI. Through the controller, a disk is created and
+by clicking on the arrows the object can move in that direction.
 
-Ask questions publicly in the Piazza group.
-
-### How to Do and Submit this assignment
-
-1. To start, [**fork** this repository][forking].
-1. Modify the README.md file and [**commit**][ref-commit] changes to complete your solution.
-  2. (This assignment is just one README.md file, so you can edit it right in github without cloning)
-  3. (You may need to clone and push if you want to add extra files)
-1. [Create a **pull request**][pull-request] on the original repository to turn in the assignment.
-
-<!-- Links -->
-[piazza]: https://piazza.com/class/i55is8xqqwhmr?cid=411
-[schedule]: https://piazza.com/class/i55is8xqqwhmr?cid=453
-[markdown]: https://help.github.com/articles/markdown-basics/
-[forking]: https://guides.github.com/activities/forking/
-[ref-clone]: http://gitref.org/creating/#clone
-[ref-commit]: http://gitref.org/basic/#commit
-[ref-push]: http://gitref.org/remotes/#push
-[pull-request]: https://help.github.com/articles/creating-a-pull-request
-
+[Initial Start](http://i.imgur.com/R6Nftlh.png)
+[After many clicks on the controller GUI to get the disk in the middle of the canvas](http://i.imgur.com/Zo2IxwP.png)
