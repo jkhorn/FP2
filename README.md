@@ -28,9 +28,11 @@ be able to move images with a controller GUI.
 (define (draw-it shape)
   (draw-solid-disk shape RAD))
 
+; makes new posn with the posn-x changed
 (define (translate-x shape change)
   (make-posn (+ (posn-x shape) change) (posn-y shape)))
 
+; makes new posn with the posn-y changed
 (define (translate-y shape change)
   (make-posn (posn-x shape) (+ (posn-y shape) change)))
 
@@ -48,6 +50,7 @@ be able to move images with a controller GUI.
      (translate-y shape delta)]
     [else false]))
 
+; make controller GUI
 (control (make-posn 10 10) 10 move-x move-y draw-it)
 ```
 
@@ -55,4 +58,5 @@ This is my code. It makes a canvas and a controller GUI. Through the controller,
 by clicking on the arrows the object can move in that direction.
 
 [Initial Start](http://i.imgur.com/R6Nftlh.png)
+
 [After many clicks on the controller GUI to get the disk in the middle of the canvas](http://i.imgur.com/Zo2IxwP.png)
